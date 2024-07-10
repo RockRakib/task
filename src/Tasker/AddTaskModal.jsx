@@ -69,10 +69,10 @@ const AddTaskModal = ({ onCurrentTask, currentTask, onModalShow }) => {
   };
 
   return (
-    <div className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 z-[102] absolute left-1/4 top-1/4 after:bg-black/45 after:w-full after:h-full after:fixed after:top-0 after:left-0 after:-z-[11]">
+    <div className="mx-auto my-10 w-100vh max-w-[740px]  rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11 md:m-1 md:p-1 z-[102] absolute left-1/4 top-1/4 after:bg-black/45 after:w-full after:h-full after:fixed after:top-0 after:left-0 after:-z-[11]">
       <form
         onSubmit={handleSubmit}
-        className="mx-auto my-10 w-full max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11"
+        className="mx-auto my-10 w-100vh max-w-[740px] rounded-xl border border-[#FEFBFB]/[36%] bg-[#191D26] p-9 max-md:px-4 lg:my-20 lg:p-11"
       >
         <h2 className="mb-9 text-center text-2xl font-bold text-white lg:mb-11 lg:text-[28px]">
           {currentTask ? "Update Task" : "Add New Task"}

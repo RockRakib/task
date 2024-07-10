@@ -6,12 +6,14 @@ import { initialTasks } from "../data/data";
 
 const TaskProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(TaskReducer, initialTasks);
+  const [searchValue, setSearchValue] = useState("");
   const [currentTask, setCurrenTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   // handlers
   const handleCurrentTask = (data) => setCurrenTask(data);
   const handleShowModal = (data) => setShowModal(data);
+  const handleSearchValue = (e) => setSearchValue(e.target.value);
   const state = {
     tasks,
     dispatch,
@@ -19,6 +21,8 @@ const TaskProvider = ({ children }) => {
     handleCurrentTask,
     handleShowModal,
     showModal,
+    searchValue,
+    handleSearchValue,
   };
   return <TaskContext.Provider value={state}>{children}</TaskContext.Provider>;
 };

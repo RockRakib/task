@@ -15,12 +15,30 @@ const TaskTable = () => {
     handleCurrentTask,
     handleShowModal,
     showModal,
+    searchValue,
   } = useTasks();
+  let content = null;
   const [showDeleteModal, SetShowDeleteModal] = useState(false);
   const handleShowDeleteModal = () => {
     handleCurrentTask(null);
     SetShowDeleteModal(false);
   };
+  const filteredTasks = tasks.filter((task) =>
+    task.title.toLowerCase().includes(searchValue.toLowerCase())
+  );
+  if (filteredTasks.length > 0) {
+    content = filteredTasks?.map((task) => (
+      <TableData
+        onDelete={handleDelete}
+        showDeleteModal={showDeleteModal}
+        SetShowDeleteModal={SetShowDeleteModal}
+        OnShow={showDeleteModal}
+        onShowDeleteModal={handleShowDeleteModal}
+        key={task.id}
+        task={task}
+      />
+    ));
+  }
   function handleDelete(id) {
     dispatch({
       type: "remove",
@@ -75,19 +93,7 @@ const TaskTable = () => {
                   </tr>
                 </thead>
 
-                <tbody>
-                  {tasks?.map((task) => (
-                    <TableData
-                      onDelete={handleDelete}
-                      showDeleteModal={showDeleteModal}
-                      SetShowDeleteModal={SetShowDeleteModal}
-                      OnShow={showDeleteModal}
-                      onShowDeleteModal={handleShowDeleteModal}
-                      key={task.id}
-                      task={task}
-                    />
-                  ))}
-                </tbody>
+                <tbody>{content}</tbody>
               </table>
               {tasks?.length === 0 ||
                 (!tasks && (

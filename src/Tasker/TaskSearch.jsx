@@ -1,7 +1,10 @@
+import { useTasks } from "../context/Hooks";
+
 const TaskSearch = () => {
+  const { searchValue, handleSearchValue, tasks } = useTasks();
   return (
     <>
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="flex">
           <div className="relative overflow-hidden rounded-lg text-gray-50 md:min-w-[380px] lg:min-w-[440px]">
             <input
@@ -9,10 +12,14 @@ const TaskSearch = () => {
               id="search-dropdown"
               className="z-20 block w-full bg-gray-800 px-4 py-2 pr-10 focus:outline-none"
               placeholder="Search Task"
+              value={tasks?.length < 1 ? "" : searchValue}
+              disabled={tasks?.length < 1}
+              onChange={handleSearchValue}
               required
             />
             <button
               type="submit"
+              disabled={tasks?.length < 1}
               className="absolute right-2 top-0 h-full rounded-e-lg text-white md:right-4"
             >
               <svg

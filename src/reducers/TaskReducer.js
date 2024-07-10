@@ -15,6 +15,8 @@ export const TaskReducer = (state, action) => {
       return state.map((task) =>
         task.id === action.payload.id ? action.payload : task
       );
+    case "Alldelete":
+      return [];
 
     default:
       break;

@@ -1,9 +1,17 @@
 import { useTasks } from "../context/Hooks";
+import DeleteModal from "../utils/DeleteModal";
 import { getRandomColor } from "../utils/GenerateRandomColor";
 
 /* eslint-disable react/prop-types */
-const TableData = ({ task, onDelete }) => {
+const TableData = ({
+  task,
+  showDeleteModal,
+  SetShowDeleteModal,
+  onDelete,
+  onShowDeleteModal,
+}) => {
   const { handleCurrentTask, handleShowModal, dispatch } = useTasks();
+
   const favoriteColor = task.favorite ? "yellow" : "currentColor";
   const handleToggleFavorite = (task) => {
     const updateTask = { ...task, favorite: !task.favorite };
@@ -17,8 +25,20 @@ const TableData = ({ task, onDelete }) => {
     handleCurrentTask(data);
     handleShowModal(true);
   };
+
+  const handleDelete = () => {
+    handleCurrentTask(task);
+    SetShowDeleteModal(true);
+  };
   return (
     <>
+      {showDeleteModal && (
+        <DeleteModal
+          onDelete={() => onDelete(task.id)}
+          onShowDeleteModal={onShowDeleteModal}
+          message={`Are You Sure Want To Delete ${task.title}?`}
+        />
+      )}
       <tr className="border-b border-[#2E3443] [&>td]:align-baseline [&>td]:px-4 [&>td]:py-2">
         <td>
           <svg
@@ -59,7 +79,7 @@ const TableData = ({ task, onDelete }) => {
         <td className="text-center">{task.priority}</td>
         <td>
           <div className="flex items-center justify-center space-x-3">
-            <button className="text-red-500" onClick={() => onDelete(task.id)}>
+            <button className="text-red-500" onClick={() => handleDelete(task)}>
               Delete
             </button>
             <button

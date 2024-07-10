@@ -1,8 +1,11 @@
 import TableData from "./TableData";
 import { useTasks } from "../context/Hooks";
-import { toast } from "react-toastify";
+
 import TaskHeader from "./TaskHeader";
 import AddTaskModal from "./AddTaskModal";
+import { useState } from "react";
+import { toast } from "react-toastify";
+// import DeleteModal from "../utils/DeleteModal";
 
 const TaskTable = () => {
   const {
@@ -13,18 +16,24 @@ const TaskTable = () => {
     handleShowModal,
     showModal,
   } = useTasks();
+  const [showDeleteModal, SetShowDeleteModal] = useState(false);
+  const handleShowDeleteModal = () => {
+    handleCurrentTask(null);
+    SetShowDeleteModal(false);
+  };
   function handleDelete(id) {
+    dispatch({
+      type: "remove",
+      payload: id,
+    });
+    handleCurrentTask(null); // Clear selected task
+    SetShowDeleteModal(false);
     toast.success("Deleted", {
       position: "bottom-right",
       autoClose: 1000,
       theme: "dark",
     });
-    dispatch({
-      type: "remove",
-      payload: id,
-    });
   }
-
   return (
     <>
       <section className="mb-20" id="tasks">
@@ -67,20 +76,25 @@ const TaskTable = () => {
                 </thead>
 
                 <tbody>
-                  {tasks.map((task) => (
+                  {tasks?.map((task) => (
                     <TableData
+                      onDelete={handleDelete}
+                      showDeleteModal={showDeleteModal}
+                      SetShowDeleteModal={SetShowDeleteModal}
+                      OnShow={showDeleteModal}
+                      onShowDeleteModal={handleShowDeleteModal}
                       key={task.id}
                       task={task}
-                      onDelete={handleDelete}
                     />
                   ))}
                 </tbody>
               </table>
-              {tasks.length === 0 && (
-                <h2 className="text-2xl  text-center font-semibold max-sm:mb-4">
-                  Task List Empty
-                </h2>
-              )}
+              {tasks?.length === 0 ||
+                (!tasks && (
+                  <h2 className="text-2xl  text-center font-semibold max-sm:mb-4">
+                    Task List Empty
+                  </h2>
+                ))}
             </div>
           </div>
         </div>

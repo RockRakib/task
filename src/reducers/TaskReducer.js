@@ -1,7 +1,8 @@
 export const TaskReducer = (state, action) => {
+  let updatedState;
   switch (action.type) {
     case "add":
-      return [
+      updatedState = [
         ...state,
         {
           ...action.payload,
@@ -9,16 +10,22 @@ export const TaskReducer = (state, action) => {
           favorite: false,
         },
       ];
+      break;
     case "remove":
-      return state.filter((item) => item.id !== action.payload);
+      updatedState = state.filter((item) => item.id !== action.payload);
+      break;
     case "update":
-      return state.map((task) =>
+      updatedState = state.map((task) =>
         task.id === action.payload.id ? action.payload : task
       );
+      break;
     case "Alldelete":
       return [];
 
     default:
-      break;
+      return state;
   }
+  // Save the updated state to local storage
+  localStorage.setItem("tasks", JSON.stringify(updatedState));
+  return updatedState;
 };

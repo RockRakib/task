@@ -23,6 +23,7 @@ const TaskTable = () => {
     handleCurrentTask(null);
     SetShowDeleteModal(false);
   };
+
   const filteredTasks = tasks.filter((task) =>
     task.title.toLowerCase().includes(searchValue.toLowerCase())
   );
